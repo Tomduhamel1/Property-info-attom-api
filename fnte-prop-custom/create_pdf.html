@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>FNTE Property Custom API Documentation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 40px;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #7f8c8d;
+            margin-top: 25px;
+        }
+        code {
+            background-color: #f8f9fa;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: #e74c3c;
+        }
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+        }
+        .endpoint {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        ul {
+            margin: 10px 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        .parameter {
+            font-weight: bold;
+            color: #8e44ad;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #bdc3c7;
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>FNTE Property Custom API Documentation</h1>
+
+    <h2>API Endpoint</h2>
+    <div class="endpoint">POST https://3g9m221zcj.execute-api.us-east-1.amazonaws.com/prod/property</div>
+
+    <h2>Request Format</h2>
+
+    <h3>Headers</h3>
+    <pre>Content-Type: application/json</pre>
+
+    <h3>Request Body</h3>
+    <pre>{
+  "address": "string"
+}</pre>
+
+    <h3>Parameters</h3>
+    <ul>
+        <li><span class="parameter">address</span> (required): The property address to look up. Supports multiple formats:
+            <ul>
+                <li>Comma-separated: <code>"1234 Oak Street, Denver, CO 80202"</code></li>
+                <li>Space-separated: <code>"567 MAIN ST AUSTIN TX 73301"</code></li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>Response Format</h2>
+
+    <h3>Success Response (200 OK)</h3>
+    <pre>{
+  "success": true,
+  "data": {
+    // Property information data
+  },
+  "request": {
+    "address": "original address string",
+    "parsedAddress": {
+      "address1": "street address",
+      "address2": "city, state zip"
+    },
+    "service": "property-lookup"
+  }
+}</pre>
+
+    <h3>Error Response</h3>
+    <pre>{
+  "success": false,
+  "error": "error type",
+  "message": "detailed error message",
+  "request": {
+    "address": "original address string",
+    "service": "property-lookup"
+  }
+}</pre>
+
+    <h2>Example Usage</h2>
+
+    <h3>cURL</h3>
+    <pre>curl -X POST https://3g9m221zcj.execute-api.us-east-1.amazonaws.com/prod/property \
+  -H "Content-Type: application/json" \
+  -d '{
+    "address": "1234 Oak Street, Denver, CO 80202"
+  }'</pre>
+
+    <h3>JavaScript/Fetch</h3>
+    <pre>const response = await fetch('https://3g9m221zcj.execute-api.us-east-1.amazonaws.com/prod/property', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    address: '1234 Oak Street, Denver, CO 80202'
+  })
+});
+
+const data = await response.json();</pre>
+
+    <h3>Python</h3>
+    <pre>import requests
+
+url = 'https://3g9m221zcj.execute-api.us-east-1.amazonaws.com/prod/property'
+payload = {
+    'address': '1234 Oak Street, Denver, CO 80202'
+}
+
+response = requests.post(url, json=payload)
+data = response.json()</pre>
+
+    <h2>Response Data Structure</h2>
+    <p>The API returns comprehensive property information including:</p>
+    <ul>
+        <li><strong>Property Identification</strong>: ID, APN, property identifier</li>
+        <li><strong>Address Information</strong>: Full address, coordinates, accuracy level</li>
+        <li><strong>Property Details</strong>: Type, year built, lot size, living area</li>
+        <li><strong>Building Information</strong>: Rooms, construction type, condition</li>
+        <li><strong>Owner Information</strong>: Absentee indicator</li>
+        <li><strong>Location Data</strong>: County, municipality, geo IDs</li>
+    </ul>
+
+    <h2>CORS Support</h2>
+    <p>The API supports CORS with the following headers:</p>
+    <ul>
+        <li><code>Access-Control-Allow-Origin: *</code></li>
+        <li><code>Access-Control-Allow-Methods: GET, POST, OPTIONS</code></li>
+        <li><code>Access-Control-Allow-Headers: Content-Type, X-Amz-Date, Authorization, X-Api-Key, X-Amz-Security-Token</code></li>
+    </ul>
+
+    <h2>Rate Limiting</h2>
+    <p>Please implement appropriate delays between requests (recommended: 300-500ms) to avoid rate limiting.</p>
+
+    <h2>Error Codes</h2>
+    <ul>
+        <li><strong>400 Bad Request</strong>: Missing required parameters or invalid request format</li>
+        <li><strong>500 Internal Server Error</strong>: API request failed or server error</li>
+        <li><strong>Other codes</strong>: Authentication errors (401), access forbidden (403), rate limit exceeded (429), etc.</li>
+    </ul>
+
+    <h2>Support</h2>
+    <p>For issues or questions about this API, contact the FNTE development team.</p>
+
+    <div class="footer">
+        Generated: July 21, 2025
+    </div>
+</body>
+</html>

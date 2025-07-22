@@ -1,0 +1,16 @@
+{
+  "name": "fnte-prop-custom",
+  "version": "1.0.0",
+  "description": "AWS Lambda function to fetch property data from ATTOM API",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js",
+    "package": "zip -r function.zip index.js"
+  },
+  "keywords": ["lambda", "attom", "property", "api"],
+  "author": "FNTE",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
