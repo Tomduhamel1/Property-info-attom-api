@@ -87,6 +87,9 @@ exports.handler = async (event, context, callback) => {
         address2: address2
     });
     
+    // Define the ATTOM API endpoint
+    const endpoint = '/propertyapi/v1.0.0/property/detail';
+    
     // Configure HTTPS request options
     const options = {
         hostname: 'api.gateway.attomdata.com',
